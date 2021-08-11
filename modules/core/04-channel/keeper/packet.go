@@ -151,6 +151,7 @@ func (k Keeper) SendPacket(
 		),
 	})
 
+	// log that a packet has been sent
 	k.Logger(ctx).Info(
 		"packet sent",
 		"sequence", packet.GetSequence(),
@@ -305,7 +306,14 @@ func (k Keeper) RecvPacket(
 	}
 
 	// log that a packet has been received & executed
-	k.Logger(ctx).Info("packet received", "packet", fmt.Sprintf("%v", packet))
+	k.Logger(ctx).Info(
+		"packet received",
+		"sequence", packet.GetSequence(),
+		"src_port", packet.GetSourcePort(),
+		"src_channel", packet.GetSourceChannel(),
+		"dst_port", packet.GetDestPort(),
+		"dst_channel", packet.GetDestChannel(),
+	)
 
 	// emit an event that the relayer can query for
 	EmitRecvPacketEvent(ctx, packet, channel)
@@ -369,7 +377,14 @@ func (k Keeper) WriteAcknowledgement(
 	)
 
 	// log that a packet acknowledgement has been written
-	k.Logger(ctx).Info("acknowledged written", "packet", fmt.Sprintf("%v", packet))
+	k.Logger(ctx).Info(
+		"acknowledgement written",
+		"sequence", packet.GetSequence(),
+		"src_port", packet.GetSourcePort(),
+		"src_channel", packet.GetSourceChannel(),
+		"dst_port", packet.GetDestPort(),
+		"dst_channel", packet.GetDestChannel(),
+	)
 
 	// emit an event that the relayer can query for
 	ctx.EventManager().EmitEvents(sdk.Events{
@@ -519,7 +534,14 @@ func (k Keeper) AcknowledgePacket(
 	k.deletePacketCommitment(ctx, packet.GetSourcePort(), packet.GetSourceChannel(), packet.GetSequence())
 
 	// log that a packet has been acknowledged
-	k.Logger(ctx).Info("packet acknowledged", "packet", fmt.Sprintf("%v", packet))
+	k.Logger(ctx).Info(
+		"packet acknowledged",
+		"sequence", packet.GetSequence(),
+		"src_port", packet.GetSourcePort(),
+		"src_channel", packet.GetSourceChannel(),
+		"dst_port", packet.GetDestPort(),
+		"dst_channel", packet.GetDestChannel(),
+	)
 
 	// emit an event marking that we have processed the acknowledgement
 	EmitAcknowledgePacketEvent(ctx, packet, channel)
