@@ -194,6 +194,8 @@
 - [ibc/core/port/v1/query.proto](#ibc/core/port/v1/query.proto)
     - [QueryAppVersionRequest](#ibc.core.port.v1.QueryAppVersionRequest)
     - [QueryAppVersionResponse](#ibc.core.port.v1.QueryAppVersionResponse)
+    - [QueryPortRequest](#ibc.core.port.v1.QueryPortRequest)
+    - [QueryPortResponse](#ibc.core.port.v1.QueryPortResponse)
   
     - [Query](#ibc.core.port.v1.Query)
   
@@ -2939,6 +2941,37 @@ QueryAppVersionResponse is the response type for the Query/AppVersion RPC method
 
 
 
+
+<a name="ibc.core.port.v1.QueryPortRequest"></a>
+
+### QueryPortRequest
+QueryPortRequest is the request type for the Query/Port RPC method
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| `port_id` | [string](#string) |  | port unique identifier |
+
+
+
+
+
+
+<a name="ibc.core.port.v1.QueryPortResponse"></a>
+
+### QueryPortResponse
+QueryPortResponse is the response type for the Query/Port RPC method
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| `port_id` | [string](#string) |  | port unique identifier |
+| `application` | [string](#string) |  | application module name |
+
+
+
+
+
  <!-- end messages -->
 
  <!-- end enums -->
@@ -2953,6 +2986,7 @@ Query defines the gRPC querier service
 
 | Method Name | Request Type | Response Type | Description | HTTP Verb | Endpoint |
 | ----------- | ------------ | ------------- | ------------| ------- | -------- |
+| `Port` | [QueryPortRequest](#ibc.core.port.v1.QueryPortRequest) | [QueryPortResponse](#ibc.core.port.v1.QueryPortResponse) | Port queries an IBC port returning the associated application module | |
 | `AppVersion` | [QueryAppVersionRequest](#ibc.core.port.v1.QueryAppVersionRequest) | [QueryAppVersionResponse](#ibc.core.port.v1.QueryAppVersionResponse) | AppVersion queries an IBC Port and determines the appropriate application version to be used | |
 
  <!-- end services -->

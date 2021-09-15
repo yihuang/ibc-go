@@ -8,8 +8,24 @@ import "ibc/core/channel/v1/channel.proto";
 
 // Query defines the gRPC querier service
 service Query {
+  // Port queries an IBC port returning the associated application module
+  rpc Port(QueryPortRequest) returns (QueryPortResponse) {}
   // AppVersion queries an IBC Port and determines the appropriate application version to be used
   rpc AppVersion(QueryAppVersionRequest) returns (QueryAppVersionResponse) {}
+}
+
+// QueryPortRequest is the request type for the Query/Port RPC method
+message QueryPortRequest {
+  // port unique identifier
+  string port_id = 1;
+}
+
+// QueryPortResponse is the response type for the Query/Port RPC method
+message QueryPortResponse {
+  // port unique identifier
+  string port_id = 1;
+  // application module name
+  string application = 2;
 }
 
 // QueryAppVersionRequest is the request type for the Query/AppVersion RPC method
