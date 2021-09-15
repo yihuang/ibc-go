@@ -28,6 +28,107 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
+// QueryPortRequest is the request type for the Query/Port RPC method
+type QueryPortRequest struct {
+	// port unique identifier
+	PortId string `protobuf:"bytes,1,opt,name=port_id,json=portId,proto3" json:"port_id,omitempty"`
+}
+
+func (m *QueryPortRequest) Reset()         { *m = QueryPortRequest{} }
+func (m *QueryPortRequest) String() string { return proto.CompactTextString(m) }
+func (*QueryPortRequest) ProtoMessage()    {}
+func (*QueryPortRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_9a256596009a8334, []int{0}
+}
+func (m *QueryPortRequest) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *QueryPortRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_QueryPortRequest.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *QueryPortRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_QueryPortRequest.Merge(m, src)
+}
+func (m *QueryPortRequest) XXX_Size() int {
+	return m.Size()
+}
+func (m *QueryPortRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_QueryPortRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_QueryPortRequest proto.InternalMessageInfo
+
+func (m *QueryPortRequest) GetPortId() string {
+	if m != nil {
+		return m.PortId
+	}
+	return ""
+}
+
+// QueryPortResponse is the response type for the Query/Port RPC method
+type QueryPortResponse struct {
+	// port unique identifier
+	PortId string `protobuf:"bytes,1,opt,name=port_id,json=portId,proto3" json:"port_id,omitempty"`
+	// application module name
+	Application string `protobuf:"bytes,2,opt,name=application,proto3" json:"application,omitempty"`
+}
+
+func (m *QueryPortResponse) Reset()         { *m = QueryPortResponse{} }
+func (m *QueryPortResponse) String() string { return proto.CompactTextString(m) }
+func (*QueryPortResponse) ProtoMessage()    {}
+func (*QueryPortResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_9a256596009a8334, []int{1}
+}
+func (m *QueryPortResponse) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *QueryPortResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_QueryPortResponse.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *QueryPortResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_QueryPortResponse.Merge(m, src)
+}
+func (m *QueryPortResponse) XXX_Size() int {
+	return m.Size()
+}
+func (m *QueryPortResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_QueryPortResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_QueryPortResponse proto.InternalMessageInfo
+
+func (m *QueryPortResponse) GetPortId() string {
+	if m != nil {
+		return m.PortId
+	}
+	return ""
+}
+
+func (m *QueryPortResponse) GetApplication() string {
+	if m != nil {
+		return m.Application
+	}
+	return ""
+}
+
 // QueryAppVersionRequest is the request type for the Query/AppVersion RPC method
 type QueryAppVersionRequest struct {
 	// port unique identifier
@@ -46,7 +147,7 @@ func (m *QueryAppVersionRequest) Reset()         { *m = QueryAppVersionRequest{}
 func (m *QueryAppVersionRequest) String() string { return proto.CompactTextString(m) }
 func (*QueryAppVersionRequest) ProtoMessage()    {}
 func (*QueryAppVersionRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_9a256596009a8334, []int{0}
+	return fileDescriptor_9a256596009a8334, []int{2}
 }
 func (m *QueryAppVersionRequest) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -122,7 +223,7 @@ func (m *QueryAppVersionResponse) Reset()         { *m = QueryAppVersionResponse
 func (m *QueryAppVersionResponse) String() string { return proto.CompactTextString(m) }
 func (*QueryAppVersionResponse) ProtoMessage()    {}
 func (*QueryAppVersionResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_9a256596009a8334, []int{1}
+	return fileDescriptor_9a256596009a8334, []int{3}
 }
 func (m *QueryAppVersionResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -166,6 +267,8 @@ func (m *QueryAppVersionResponse) GetVersion() string {
 }
 
 func init() {
+	proto.RegisterType((*QueryPortRequest)(nil), "ibc.core.port.v1.QueryPortRequest")
+	proto.RegisterType((*QueryPortResponse)(nil), "ibc.core.port.v1.QueryPortResponse")
 	proto.RegisterType((*QueryAppVersionRequest)(nil), "ibc.core.port.v1.QueryAppVersionRequest")
 	proto.RegisterType((*QueryAppVersionResponse)(nil), "ibc.core.port.v1.QueryAppVersionResponse")
 }
@@ -173,31 +276,34 @@ func init() {
 func init() { proto.RegisterFile("ibc/core/port/v1/query.proto", fileDescriptor_9a256596009a8334) }
 
 var fileDescriptor_9a256596009a8334 = []byte{
-	// 371 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x8c, 0x52, 0x3f, 0x8f, 0xda, 0x30,
-	0x14, 0x4f, 0x68, 0x81, 0xd6, 0xa5, 0x2d, 0xf2, 0x50, 0x22, 0x54, 0x45, 0x40, 0x97, 0x30, 0xe0,
-	0x14, 0x50, 0xbb, 0xb7, 0x55, 0x07, 0xa4, 0x56, 0x55, 0x33, 0x74, 0xe8, 0x82, 0x88, 0x63, 0x81,
-	0x25, 0xf0, 0x33, 0xb6, 0x13, 0x89, 0xed, 0x3e, 0xc2, 0x7d, 0xac, 0x1b, 0x19, 0x6f, 0x3c, 0xc1,
-	0x17, 0x39, 0x39, 0x21, 0x70, 0x7f, 0x38, 0xe9, 0x36, 0xbf, 0xf7, 0xfb, 0xa3, 0xdf, 0x7b, 0x7e,
-	0xe8, 0x23, 0x8f, 0x69, 0x48, 0x41, 0xb1, 0x50, 0x82, 0x32, 0x61, 0x36, 0x0c, 0xd7, 0x29, 0x53,
-	0x1b, 0x22, 0x15, 0x18, 0xc0, 0x4d, 0x1e, 0x53, 0x62, 0x51, 0x62, 0x51, 0x92, 0x0d, 0xdb, 0xdd,
-	0x23, 0x9f, 0x2e, 0x66, 0x42, 0xb0, 0xa5, 0x95, 0x1c, 0x9e, 0x85, 0xa8, 0x77, 0x51, 0x41, 0x1f,
-	0xfe, 0x5a, 0x93, 0x6f, 0x52, 0xfe, 0x63, 0x4a, 0x73, 0x10, 0x11, 0x5b, 0xa7, 0x4c, 0x1b, 0xdc,
-	0x42, 0x75, 0x6b, 0x34, 0xe5, 0x89, 0xe7, 0x76, 0xdc, 0xe0, 0x75, 0x54, 0xb3, 0xe5, 0x24, 0xc1,
-	0x9f, 0xd0, 0x5b, 0x0a, 0x42, 0x30, 0x6a, 0x38, 0x08, 0x0b, 0x57, 0x72, 0xb8, 0x71, 0x6a, 0x4e,
-	0x12, 0xfc, 0x15, 0xbd, 0x02, 0x95, 0x30, 0xc5, 0xc5, 0xdc, 0x7b, 0xd1, 0x71, 0x83, 0x77, 0xa3,
-	0x36, 0x39, 0x06, 0x2c, 0x33, 0x64, 0x43, 0xf2, 0xc7, 0x92, 0xa2, 0x23, 0x17, 0xff, 0x44, 0x0d,
-	0x0a, 0xa9, 0x30, 0x4c, 0xc9, 0x99, 0x32, 0x1b, 0xef, 0x65, 0xc7, 0x0d, 0xde, 0x8c, 0xba, 0x67,
-	0xb5, 0x3f, 0xee, 0x10, 0xa3, 0x7b, 0x32, 0xdc, 0x47, 0x4d, 0xa9, 0x40, 0x82, 0x66, 0xc9, 0x34,
-	0x2b, 0xe6, 0xf2, 0xaa, 0x79, 0xcc, 0xf7, 0x65, 0xff, 0x30, 0x6e, 0xef, 0x17, 0x6a, 0x3d, 0xda,
-	0x80, 0x96, 0x20, 0x34, 0x7b, 0x7a, 0x05, 0x1e, 0xaa, 0x97, 0xae, 0xc5, 0xf0, 0x65, 0x39, 0x5a,
-	0xa2, 0x6a, 0xee, 0x86, 0x29, 0x42, 0x27, 0x47, 0x1c, 0x90, 0x87, 0xbf, 0x43, 0xce, 0xaf, 0xbd,
-	0xdd, 0x7f, 0x06, 0xb3, 0x88, 0xd7, 0x73, 0xbe, 0xff, 0xbe, 0xda, 0xf9, 0xee, 0x76, 0xe7, 0xbb,
-	0x37, 0x3b, 0xdf, 0xbd, 0xdc, 0xfb, 0xce, 0x76, 0xef, 0x3b, 0xd7, 0x7b, 0xdf, 0xf9, 0x3f, 0x9e,
-	0x73, 0xb3, 0x48, 0x63, 0x42, 0x61, 0x15, 0x52, 0xd0, 0x2b, 0xd0, 0x21, 0x8f, 0xe9, 0x60, 0x0e,
-	0xe1, 0x0a, 0x92, 0x74, 0xc9, 0x74, 0x71, 0x18, 0x9f, 0xbf, 0x0c, 0xf2, 0x5b, 0x32, 0x1b, 0xc9,
-	0x74, 0x5c, 0xcb, 0x8f, 0x62, 0x7c, 0x1b, 0x00, 0x00, 0xff, 0xff, 0x19, 0xf0, 0xfb, 0x67, 0x69,
-	0x02, 0x00, 0x00,
+	// 428 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x8c, 0x53, 0x4d, 0x6f, 0xd3, 0x40,
+	0x10, 0xcd, 0x96, 0x7e, 0xc0, 0xb4, 0x40, 0xd8, 0x03, 0xb5, 0x22, 0x64, 0xa5, 0xee, 0xc5, 0x15,
+	0xea, 0x9a, 0xa4, 0x82, 0x3b, 0x20, 0x0e, 0x95, 0xf8, 0xaa, 0x0f, 0x1c, 0xb8, 0x54, 0xf6, 0x7a,
+	0x95, 0xae, 0x94, 0xec, 0x6c, 0x77, 0xd7, 0x96, 0x72, 0xe3, 0x27, 0xf0, 0x8f, 0xb8, 0x72, 0xec,
+	0x91, 0x23, 0x4a, 0xfe, 0x08, 0x5a, 0xbb, 0x4e, 0x43, 0x4b, 0x49, 0x6f, 0x9e, 0x99, 0xf7, 0x9e,
+	0x67, 0xde, 0xcc, 0xc2, 0x33, 0x99, 0xf3, 0x84, 0xa3, 0x11, 0x89, 0x46, 0xe3, 0x92, 0x6a, 0x90,
+	0x9c, 0x97, 0xc2, 0x4c, 0x99, 0x36, 0xe8, 0x90, 0x76, 0x65, 0xce, 0x99, 0xaf, 0x32, 0x5f, 0x65,
+	0xd5, 0xa0, 0xb7, 0xb7, 0xc0, 0xf3, 0xb3, 0x4c, 0x29, 0x31, 0xf6, 0x94, 0xcb, 0xcf, 0x86, 0x14,
+	0x3d, 0x87, 0xee, 0x89, 0xd7, 0xf8, 0x8c, 0xc6, 0xa5, 0xe2, 0xbc, 0x14, 0xd6, 0xd1, 0x5d, 0xd8,
+	0xf2, 0x0a, 0xa7, 0xb2, 0x08, 0x48, 0x9f, 0xc4, 0x0f, 0xd2, 0x4d, 0x1f, 0x1e, 0x17, 0xd1, 0x47,
+	0x78, 0xb2, 0x04, 0xb6, 0x1a, 0x95, 0x15, 0xb7, 0xa2, 0x69, 0x1f, 0xb6, 0x33, 0xad, 0xc7, 0x92,
+	0x67, 0x4e, 0xa2, 0x0a, 0xd6, 0xea, 0xe2, 0x72, 0x2a, 0xfa, 0xb6, 0x06, 0x4f, 0x6b, 0xc1, 0xd7,
+	0x5a, 0x7f, 0x11, 0xc6, 0x4a, 0x54, 0xab, 0x7a, 0xa0, 0xfb, 0xf0, 0x90, 0xa3, 0x52, 0x82, 0x7b,
+	0x05, 0x5f, 0x6e, 0x74, 0x77, 0xae, 0x92, 0xc7, 0x05, 0x7d, 0x05, 0xf7, 0xd1, 0x14, 0xc2, 0x48,
+	0x35, 0x0a, 0xee, 0xf5, 0x49, 0xfc, 0x68, 0xd8, 0x63, 0x0b, 0x77, 0x5a, 0x03, 0xaa, 0x01, 0xfb,
+	0xe4, 0x41, 0xe9, 0x02, 0x4b, 0xdf, 0xc1, 0x0e, 0xc7, 0x52, 0x39, 0x61, 0x74, 0x66, 0xdc, 0x34,
+	0x58, 0xef, 0x93, 0x78, 0x7b, 0xb8, 0xf7, 0x4f, 0xee, 0xdb, 0x25, 0x60, 0xfa, 0x17, 0x8d, 0x1e,
+	0x40, 0x57, 0x1b, 0xd4, 0x68, 0x45, 0x71, 0x5a, 0x35, 0x73, 0x05, 0x1b, 0x75, 0x9b, 0x8f, 0xdb,
+	0xfc, 0xe5, 0xb8, 0xd1, 0x7b, 0xd8, 0xbd, 0xe1, 0xc0, 0x2a, 0x63, 0x03, 0xd8, 0x6a, 0x55, 0x9b,
+	0xe1, 0xdb, 0x70, 0xf8, 0x83, 0xc0, 0x46, 0x2d, 0x47, 0x4f, 0x60, 0xdd, 0x6f, 0x89, 0x46, 0xec,
+	0xfa, 0x55, 0xb0, 0xeb, 0xfb, 0xee, 0xed, 0xff, 0x17, 0xd3, 0x74, 0x13, 0x75, 0x28, 0x07, 0xb8,
+	0xea, 0x92, 0xc6, 0xb7, 0x90, 0x6e, 0xac, 0xb2, 0x77, 0x70, 0x07, 0x64, 0xfb, 0x93, 0x37, 0x1f,
+	0x7e, 0xce, 0x42, 0x72, 0x31, 0x0b, 0xc9, 0xef, 0x59, 0x48, 0xbe, 0xcf, 0xc3, 0xce, 0xc5, 0x3c,
+	0xec, 0xfc, 0x9a, 0x87, 0x9d, 0xaf, 0x47, 0x23, 0xe9, 0xce, 0xca, 0x9c, 0x71, 0x9c, 0x24, 0x1c,
+	0xed, 0x04, 0x6d, 0x22, 0x73, 0x7e, 0x38, 0xc2, 0x64, 0x82, 0x45, 0x39, 0x16, 0xb6, 0xb9, 0xf4,
+	0x17, 0x2f, 0x0f, 0xeb, 0xc7, 0xe1, 0xa6, 0x5a, 0xd8, 0x7c, 0xb3, 0xbe, 0xf2, 0xa3, 0x3f, 0x01,
+	0x00, 0x00, 0xff, 0xff, 0x12, 0xa9, 0xed, 0x8a, 0x3a, 0x03, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -212,6 +318,8 @@ const _ = grpc.SupportPackageIsVersion4
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type QueryClient interface {
+	// Port queries an IBC port returning the associated application module
+	Port(ctx context.Context, in *QueryPortRequest, opts ...grpc.CallOption) (*QueryPortResponse, error)
 	// AppVersion queries an IBC Port and determines the appropriate application version to be used
 	AppVersion(ctx context.Context, in *QueryAppVersionRequest, opts ...grpc.CallOption) (*QueryAppVersionResponse, error)
 }
@@ -222,6 +330,15 @@ type queryClient struct {
 
 func NewQueryClient(cc grpc1.ClientConn) QueryClient {
 	return &queryClient{cc}
+}
+
+func (c *queryClient) Port(ctx context.Context, in *QueryPortRequest, opts ...grpc.CallOption) (*QueryPortResponse, error) {
+	out := new(QueryPortResponse)
+	err := c.cc.Invoke(ctx, "/ibc.core.port.v1.Query/Port", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
 }
 
 func (c *queryClient) AppVersion(ctx context.Context, in *QueryAppVersionRequest, opts ...grpc.CallOption) (*QueryAppVersionResponse, error) {
@@ -235,6 +352,8 @@ func (c *queryClient) AppVersion(ctx context.Context, in *QueryAppVersionRequest
 
 // QueryServer is the server API for Query service.
 type QueryServer interface {
+	// Port queries an IBC port returning the associated application module
+	Port(context.Context, *QueryPortRequest) (*QueryPortResponse, error)
 	// AppVersion queries an IBC Port and determines the appropriate application version to be used
 	AppVersion(context.Context, *QueryAppVersionRequest) (*QueryAppVersionResponse, error)
 }
@@ -243,12 +362,33 @@ type QueryServer interface {
 type UnimplementedQueryServer struct {
 }
 
+func (*UnimplementedQueryServer) Port(ctx context.Context, req *QueryPortRequest) (*QueryPortResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Port not implemented")
+}
 func (*UnimplementedQueryServer) AppVersion(ctx context.Context, req *QueryAppVersionRequest) (*QueryAppVersionResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AppVersion not implemented")
 }
 
 func RegisterQueryServer(s grpc1.Server, srv QueryServer) {
 	s.RegisterService(&_Query_serviceDesc, srv)
+}
+
+func _Query_Port_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(QueryPortRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(QueryServer).Port(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/ibc.core.port.v1.Query/Port",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(QueryServer).Port(ctx, req.(*QueryPortRequest))
+	}
+	return interceptor(ctx, in, info, handler)
 }
 
 func _Query_AppVersion_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -274,12 +414,83 @@ var _Query_serviceDesc = grpc.ServiceDesc{
 	HandlerType: (*QueryServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
+			MethodName: "Port",
+			Handler:    _Query_Port_Handler,
+		},
+		{
 			MethodName: "AppVersion",
 			Handler:    _Query_AppVersion_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
 	Metadata: "ibc/core/port/v1/query.proto",
+}
+
+func (m *QueryPortRequest) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *QueryPortRequest) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *QueryPortRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if len(m.PortId) > 0 {
+		i -= len(m.PortId)
+		copy(dAtA[i:], m.PortId)
+		i = encodeVarintQuery(dAtA, i, uint64(len(m.PortId)))
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *QueryPortResponse) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *QueryPortResponse) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *QueryPortResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if len(m.Application) > 0 {
+		i -= len(m.Application)
+		copy(dAtA[i:], m.Application)
+		i = encodeVarintQuery(dAtA, i, uint64(len(m.Application)))
+		i--
+		dAtA[i] = 0x12
+	}
+	if len(m.PortId) > 0 {
+		i -= len(m.PortId)
+		copy(dAtA[i:], m.PortId)
+		i = encodeVarintQuery(dAtA, i, uint64(len(m.PortId)))
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
 }
 
 func (m *QueryAppVersionRequest) Marshal() (dAtA []byte, err error) {
@@ -391,6 +602,36 @@ func encodeVarintQuery(dAtA []byte, offset int, v uint64) int {
 	dAtA[offset] = uint8(v)
 	return base
 }
+func (m *QueryPortRequest) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	l = len(m.PortId)
+	if l > 0 {
+		n += 1 + l + sovQuery(uint64(l))
+	}
+	return n
+}
+
+func (m *QueryPortResponse) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	l = len(m.PortId)
+	if l > 0 {
+		n += 1 + l + sovQuery(uint64(l))
+	}
+	l = len(m.Application)
+	if l > 0 {
+		n += 1 + l + sovQuery(uint64(l))
+	}
+	return n
+}
+
 func (m *QueryAppVersionRequest) Size() (n int) {
 	if m == nil {
 		return 0
@@ -441,6 +682,202 @@ func sovQuery(x uint64) (n int) {
 }
 func sozQuery(x uint64) (n int) {
 	return sovQuery(uint64((x << 1) ^ uint64((int64(x) >> 63))))
+}
+func (m *QueryPortRequest) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowQuery
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: QueryPortRequest: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: QueryPortRequest: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field PortId", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowQuery
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthQuery
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.PortId = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipQuery(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *QueryPortResponse) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowQuery
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: QueryPortResponse: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: QueryPortResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field PortId", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowQuery
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthQuery
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.PortId = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Application", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowQuery
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthQuery
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Application = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipQuery(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
 }
 func (m *QueryAppVersionRequest) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)

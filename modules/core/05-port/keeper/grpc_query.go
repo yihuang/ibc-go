@@ -14,6 +14,25 @@ import (
 
 var _ types.QueryServer = (*Keeper)(nil)
 
+// Port implements the Query/Port gRPC method
+func (q Keeper) Port(c context.Context, req *types.QueryPortRequest) (*types.QueryPortResponse, error) {
+	if req == nil {
+		return nil, status.Error(codes.InvalidArgument, "empty request")
+	}
+
+	if err := validategRPCRequest(req.PortId); err != nil {
+		return nil, err
+	}
+
+	ctx := sdk.UnwrapSDKContext(c)
+	module, _, err := q.LookupModuleByPort(ctx, req.PortId)
+	if err != nil {
+		return nil, status.Errorf(codes.NotFound, sdkerrors.Wrap(err, "could not retrieve module from port-id").Error())
+	}
+
+	return types.NewQueryPortResponse(req.PortId, module), nil
+}
+
 // AppVersion implements the Query/AppVersion gRPC method
 func (q Keeper) AppVersion(c context.Context, req *types.QueryAppVersionRequest) (*types.QueryAppVersionResponse, error) {
 	if req == nil {
