@@ -63,3 +63,8 @@ func (rtr *Router) GetRoute(module string) (IBCModule, bool) {
 	}
 	return rtr.routes[module], true
 }
+
+// GetRoutes returns all IBCModules for a given module.
+func (rtr *Router) GetRoutes() map[string]IBCModule {
+	return rtr.routes
+}

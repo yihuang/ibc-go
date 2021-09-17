@@ -196,6 +196,8 @@
     - [QueryAppVersionResponse](#ibc.core.port.v1.QueryAppVersionResponse)
     - [QueryPortRequest](#ibc.core.port.v1.QueryPortRequest)
     - [QueryPortResponse](#ibc.core.port.v1.QueryPortResponse)
+    - [QueryPortsRequest](#ibc.core.port.v1.QueryPortsRequest)
+    - [QueryPortsResponse](#ibc.core.port.v1.QueryPortsResponse)
   
     - [Query](#ibc.core.port.v1.Query)
   
@@ -2972,6 +2974,26 @@ QueryPortResponse is the response type for the Query/Port RPC method
 
 
 
+
+<a name="ibc.core.port.v1.QueryPortsRequest"></a>
+
+### QueryPortsRequest
+QueryPortsRequest is the request type for the Query/Ports RPC method
+
+
+
+
+
+
+<a name="ibc.core.port.v1.QueryPortsResponse"></a>
+
+### QueryPortsResponse
+QueryPortResponse is the response type for the Query/Ports RPC method
+
+
+
+
+
  <!-- end messages -->
 
  <!-- end enums -->
@@ -2987,6 +3009,7 @@ Query defines the gRPC querier service
 | Method Name | Request Type | Response Type | Description | HTTP Verb | Endpoint |
 | ----------- | ------------ | ------------- | ------------| ------- | -------- |
 | `Port` | [QueryPortRequest](#ibc.core.port.v1.QueryPortRequest) | [QueryPortResponse](#ibc.core.port.v1.QueryPortResponse) | Port queries an IBC port returning the associated application module | |
+| `Ports` | [QueryPortsRequest](#ibc.core.port.v1.QueryPortsRequest) | [QueryPortsResponse](#ibc.core.port.v1.QueryPortsResponse) | Ports queries all IBC ports returning the associated application modules | |
 | `AppVersion` | [QueryAppVersionRequest](#ibc.core.port.v1.QueryAppVersionRequest) | [QueryAppVersionResponse](#ibc.core.port.v1.QueryAppVersionResponse) | AppVersion queries an IBC Port and determines the appropriate application version to be used | |
 
  <!-- end services -->

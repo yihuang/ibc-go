@@ -33,6 +33,18 @@ func (q Keeper) Port(c context.Context, req *types.QueryPortRequest) (*types.Que
 	return types.NewQueryPortResponse(req.PortId, module), nil
 }
 
+// Ports implements the Query/Ports gRPC method
+func (q Keeper) Ports(c context.Context, req *types.QueryPortsRequest) (*types.QueryPortsResponse, error) {
+	if req == nil {
+		return nil, status.Error(codes.InvalidArgument, "empty request")
+	}
+
+	ctx := sdk.UnwrapSDKContext(c)
+	_, _ = q.scopedKeeper.GetOwners(ctx, "")
+
+	return &types.QueryPortsResponse{}, nil
+}
+
 // AppVersion implements the Query/AppVersion gRPC method
 func (q Keeper) AppVersion(c context.Context, req *types.QueryAppVersionRequest) (*types.QueryAppVersionResponse, error) {
 	if req == nil {

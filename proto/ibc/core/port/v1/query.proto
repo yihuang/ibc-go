@@ -10,6 +10,8 @@ import "ibc/core/channel/v1/channel.proto";
 service Query {
   // Port queries an IBC port returning the associated application module
   rpc Port(QueryPortRequest) returns (QueryPortResponse) {}
+  // Ports queries all IBC ports returning the associated application modules
+  rpc Ports(QueryPortsRequest) returns (QueryPortsResponse) {}
   // AppVersion queries an IBC Port and determines the appropriate application version to be used
   rpc AppVersion(QueryAppVersionRequest) returns (QueryAppVersionResponse) {}
 }
@@ -27,6 +29,12 @@ message QueryPortResponse {
   // application module name
   string application = 2;
 }
+
+// QueryPortsRequest is the request type for the Query/Ports RPC method
+message QueryPortsRequest {}
+
+// QueryPortResponse is the response type for the Query/Ports RPC method
+message QueryPortsResponse {}
 
 // QueryAppVersionRequest is the request type for the Query/AppVersion RPC method
 message QueryAppVersionRequest {
