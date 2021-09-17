@@ -10,6 +10,75 @@ import (
 	"github.com/cosmos/ibc-go/testing/mock"
 )
 
+func (suite *KeeperTestSuite) TestPort() {
+	var (
+		req    *types.QueryPortRequest
+		expApp string
+	)
+
+	testCases := []struct {
+		msg      string
+		malleate func()
+		expPass  bool
+	}{
+		{
+			"empty request",
+			func() {
+				req = nil
+			},
+			false,
+		},
+		{
+			"invalid port ID",
+			func() {
+				req = &types.QueryPortRequest{
+					PortId: "",
+				}
+			},
+			false,
+		},
+		{
+			"module not found",
+			func() {
+				req = &types.QueryPortRequest{
+					PortId: "mock-port-id",
+				}
+			},
+			false,
+		},
+		{
+			"success",
+			func() {
+				expApp = mock.ModuleName
+
+				req = &types.QueryPortRequest{
+					PortId: "mock", // retrieves the mock testing module
+				}
+			},
+			true,
+		},
+	}
+
+	for _, tc := range testCases {
+		suite.Run(fmt.Sprintf("Case %s", tc.msg), func() {
+			suite.SetupTest() // reset
+
+			tc.malleate()
+
+			ctx := sdk.WrapSDKContext(suite.ctx)
+			res, err := suite.keeper.Port(ctx, req)
+
+			if tc.expPass {
+				suite.Require().NoError(err)
+				suite.Require().NotNil(res)
+				suite.Require().Equal(expApp, res.Application)
+			} else {
+				suite.Require().Error(err)
+			}
+		})
+	}
+}
+
 func (suite *KeeperTestSuite) TestAppVersion() {
 	var (
 		req        *types.QueryAppVersionRequest
