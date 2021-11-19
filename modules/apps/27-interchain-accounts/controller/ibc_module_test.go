@@ -10,6 +10,7 @@ import (
 	"github.com/tendermint/tendermint/crypto"
 
 	"github.com/cosmos/ibc-go/v2/modules/apps/27-interchain-accounts/types"
+	clienttypes "github.com/cosmos/ibc-go/v2/modules/core/02-client/types"
 	channeltypes "github.com/cosmos/ibc-go/v2/modules/core/04-channel/types"
 	host "github.com/cosmos/ibc-go/v2/modules/core/24-host"
 	ibctesting "github.com/cosmos/ibc-go/v2/testing"
@@ -189,6 +190,73 @@ func (suite *InterchainAccountsTestSuite) TestOnChanOpenInit() {
 	}
 }
 
+func (suite *InterchainAccountsTestSuite) TestOnChanOpenTry() {
+	var (
+		path *ibctesting.Path
+	)
+
+	testCases := []struct {
+		name     string
+		malleate func()
+		expPass  bool
+	}{
+		{
+			"ICA OnChanOpenTry fails with ErrInvalidChannelFlow", func() {}, false,
+		},
+	}
+
+	for _, tc := range testCases {
+		suite.Run(tc.name, func() {
+			suite.SetupTest() // reset
+
+			path = NewICAPath(suite.chainA, suite.chainB)
+			suite.coordinator.SetupConnections(path)
+
+			err := InitInterchainAccount(path.EndpointA, TestOwnerAddress)
+			suite.Require().NoError(err)
+
+			tc.malleate() // malleate mutates test data
+
+			module, _, err := suite.chainA.App.GetIBCKeeper().PortKeeper.LookupModuleByPort(suite.chainA.GetContext(), path.EndpointA.ChannelConfig.PortID)
+			suite.Require().NoError(err)
+
+			cbs, ok := suite.chainA.App.GetIBCKeeper().Router.GetRoute(module)
+			suite.Require().True(ok)
+
+			counterparty := channeltypes.NewCounterparty(path.EndpointB.ChannelConfig.PortID, path.EndpointB.ChannelID)
+			channel := &channeltypes.Channel{
+				State:          channeltypes.INIT,
+				Ordering:       channeltypes.ORDERED,
+				Counterparty:   counterparty,
+				ConnectionHops: []string{path.EndpointA.ConnectionID},
+				Version:        types.VersionPrefix,
+			}
+
+			chanCap, found := suite.chainA.App.GetScopedIBCKeeper().GetCapability(suite.chainA.GetContext(), host.ChannelCapabilityPath(path.EndpointA.ChannelConfig.PortID, path.EndpointA.ChannelID))
+			suite.Require().True(found)
+
+			err = cbs.OnChanOpenTry(
+				suite.chainA.GetContext(),
+				channel.Ordering,
+				channel.ConnectionHops,
+				path.EndpointA.ChannelConfig.PortID,
+				path.EndpointA.ChannelID,
+				chanCap,
+				channel.Counterparty,
+				path.EndpointA.ChannelConfig.Version,
+				path.EndpointB.ChannelConfig.Version,
+			)
+
+			if tc.expPass {
+				suite.Require().NoError(err)
+			} else {
+				suite.Require().Error(err)
+			}
+
+		})
+	}
+}
+
 func (suite *InterchainAccountsTestSuite) TestOnChanOpenAck() {
 	var (
 		path *ibctesting.Path
@@ -252,4 +320,109 @@ func (suite *InterchainAccountsTestSuite) TestOnChanOpenAck() {
 		})
 	}
 
+}
+
+func (suite *InterchainAccountsTestSuite) TestOnChanOpenConfirm() {
+	var (
+		path *ibctesting.Path
+	)
+
+	testCases := []struct {
+		name     string
+		malleate func()
+		expPass  bool
+	}{
+		{
+			"ICA OnChanOpenConfirm fails with ErrInvalidChannelFlow", func() {}, false,
+		},
+	}
+
+	for _, tc := range testCases {
+		suite.Run(tc.name, func() {
+			suite.SetupTest() // reset
+
+			path = NewICAPath(suite.chainA, suite.chainB)
+			suite.coordinator.SetupConnections(path)
+
+			err := InitInterchainAccount(path.EndpointA, TestOwnerAddress)
+			suite.Require().NoError(err)
+
+			err = path.EndpointB.ChanOpenTry()
+			suite.Require().NoError(err)
+
+			err = path.EndpointA.ChanOpenAck()
+			suite.Require().NoError(err)
+
+			tc.malleate() // malleate mutates test data
+
+			module, _, err := suite.chainA.App.GetIBCKeeper().PortKeeper.LookupModuleByPort(suite.chainA.GetContext(), path.EndpointA.ChannelConfig.PortID)
+			suite.Require().NoError(err)
+
+			cbs, ok := suite.chainA.App.GetIBCKeeper().Router.GetRoute(module)
+			suite.Require().True(ok)
+
+			err = cbs.OnChanOpenConfirm(suite.chainA.GetContext(), path.EndpointA.ChannelConfig.PortID, path.EndpointA.ChannelID)
+
+			if tc.expPass {
+				suite.Require().NoError(err)
+			} else {
+				suite.Require().Error(err)
+			}
+		})
+	}
+}
+
+func (suite *InterchainAccountsTestSuite) TestOnRecvPacket() {
+	var (
+		path *ibctesting.Path
+	)
+
+	testCases := []struct {
+		name     string
+		malleate func()
+		expPass  bool
+	}{
+		{
+			"ICA OnRecvPacket fails with error acknowledgement", func() {}, false,
+		},
+	}
+
+	for _, tc := range testCases {
+		suite.Run(tc.name, func() {
+			suite.SetupTest() // reset
+
+			path = NewICAPath(suite.chainA, suite.chainB)
+			suite.coordinator.SetupConnections(path)
+
+			err := SetupICAPath(path, TestOwnerAddress)
+			suite.Require().NoError(err)
+
+			tc.malleate() // malleate mutates test data
+
+			module, _, err := suite.chainA.App.GetIBCKeeper().PortKeeper.LookupModuleByPort(suite.chainA.GetContext(), path.EndpointA.ChannelConfig.PortID)
+			suite.Require().NoError(err)
+
+			cbs, ok := suite.chainA.App.GetIBCKeeper().Router.GetRoute(module)
+			suite.Require().True(ok)
+
+			packet := channeltypes.NewPacket(
+				[]byte("empty packet data"),
+				suite.chainA.SenderAccount.GetSequence(),
+				path.EndpointB.ChannelConfig.PortID,
+				path.EndpointB.ChannelID,
+				path.EndpointA.ChannelConfig.PortID,
+				path.EndpointA.ChannelID,
+				clienttypes.NewHeight(0, 100),
+				0,
+			)
+
+			ack := cbs.OnRecvPacket(suite.chainA.GetContext(), packet, TestAccAddress)
+
+			if tc.expPass {
+				suite.Require().True(ack.Success())
+			} else {
+				suite.Require().False(ack.Success())
+			}
+		})
+	}
 }
